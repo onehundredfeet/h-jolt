@@ -1,8 +1,25 @@
 
 
 
-[NoDelete, Internal="hjolt::System"]
-interface System {
-	[Static, Internal="hjolt::System::initialize"] void initialize();
+[Internal="JPH::BodyCreationSettings"]
+interface BodyCreationSettings {
+
+};
+
+[Internal="hjolt::Config"]
+interface Config {
+	attribute int maxTempAllocatorSize;
+	attribute int maxPhysicsJobs;
+	attribute int maxPhysicsBarriers;
+	attribute int maxThreads;
+	attribute int maxBodies;
+	attribute int numBodyMutexes;
+	attribute int maxBodyPairs;
+	attribute int maxContactConstraints;
+};
+
+[Internal="hjolt::Globals"]
+interface Globals {
+	void Globals( Config config );
 
 };

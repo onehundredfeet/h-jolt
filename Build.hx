@@ -7,7 +7,7 @@ class Build extends idl.BuildBase {
 	inline static final packageName = "jolt";
 
 	var options = {
-		idlFile: 'lib/${packageName}/${packageName}.idl',
+		idlFile: 'lib/${packageName}.idl',
 		target: null,
 		packageName: '${packageName}',
 		nativeLib: '${packageName}',
