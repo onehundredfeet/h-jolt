@@ -1,0 +1,6 @@
+[submodule "ext/jolt"]
+	path = ext/jolt
+	url = https://github.com/jrouwe/JoltPhysics.git
+[submodule "ext/hl-idl"]
+	path = ext/hl-idl
+	url = https://github.com/onehundredfeet/hl-idl.git

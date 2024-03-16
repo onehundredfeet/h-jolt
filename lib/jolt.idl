@@ -1,0 +1,8 @@
+
+
+
+[NoDelete, Internal="hjolt::System"]
+interface System {
+	[Static, Internal="hjolt::System::initialize"] void initialize();
+
+};

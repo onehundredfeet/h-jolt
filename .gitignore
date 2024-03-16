@@ -1,0 +1,9 @@
+.haxelib
+CMakeFiles
+bin
+build
+build_jolt
+installed
+src/idl_hl.cpp
+src/hl-idl-helpers.hpp
+jolt.hdll

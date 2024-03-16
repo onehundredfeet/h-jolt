@@ -1,0 +1,7 @@
+#build from the root of the project
+--class-path test
+--class-path lib
+--main Test
+--hl bin/test.hl
+--library hl-idl
+--library hvector
