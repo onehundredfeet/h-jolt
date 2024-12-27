@@ -7,8 +7,8 @@ object BodyCreationSettings {
 };
 
 [Internal="hjolt::Config"]
-object Config {
-	Config new();
+object JoltConfig {
+	JoltConfig new();
 	attribute int maxTempAllocatorSize;
 	attribute int maxPhysicsJobs;
 	attribute int maxPhysicsBarriers;
@@ -19,8 +19,16 @@ object Config {
 	attribute int maxContactConstraints;
 };
 
+[Internal="hjolt::PhysicsSystemWrapper"]
+object JoltSystem {
+
+
+};
+
 [Internal="hjolt::Globals"]
-object Globals {
-	Globals new( Config config );
+object JoltGlobals {
+	JoltGlobals new( JoltConfig *config );
+	JoltSystem *createSystem();
+	void updateSystem(JoltSystem *system, float deltaTime, int collisionSubSteps);
 
 };

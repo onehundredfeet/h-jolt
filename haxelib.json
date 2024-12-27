@@ -6,6 +6,6 @@
 	"description" : "Jolt Physics API for Haxe using h-idl",
 	"version" : "0.1.0",
 	"releasenote" : "",
-	"classPath": "lib/",
+	"classPath": ".",
 	"dependencies": { "hl-idl" :""}
 }

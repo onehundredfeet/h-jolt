@@ -1,0 +1,7 @@
+<xml>
+   <cppflag value="-I${JOLT_IDL_DIR}/../src"/>
+   <cppflag value="-I${JOLT_LIB_DIR}/include"/>
+   <findlib value="Jolt" dir="${JOLT_LIB_DIR}/lib/cmake/Jolt" link="true"/>
+
+</xml>
+

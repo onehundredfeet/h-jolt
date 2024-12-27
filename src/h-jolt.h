@@ -18,15 +18,15 @@
 #include <iostream>
 #include <cstdarg>
 #include <thread>
-
+ 
 // All Jolt symbols are in the JPH namespace
-using namespace JPH;
+//using namespace JPH;
 
 // If you want your code to compile using single or double precision write 0.0_r to get a Real value that compiles to double or float depending if JPH_DOUBLE_PRECISION is set or not.
 using namespace JPH::literals;
 
 // We're also using STL classes in this example
-using namespace std;
+//using namespace std;
 
 namespace hjolt
 {
@@ -41,7 +41,7 @@ namespace hjolt
         va_end(list);
 
         // Print to the TTY
-        cout << buffer << endl;
+        std::cout << buffer << std::endl;
     }
 
     // Layer that objects can be in, determines which other objects it can collide with
@@ -50,16 +50,16 @@ namespace hjolt
     // but only if you do collision testing).
     namespace Layers
     {
-        static constexpr ObjectLayer NON_MOVING = 0;
-        static constexpr ObjectLayer MOVING = 1;
-        static constexpr ObjectLayer NUM_LAYERS = 2;
+        static constexpr JPH::ObjectLayer NON_MOVING = 0;
+        static constexpr JPH::ObjectLayer MOVING = 1;
+        static constexpr JPH::ObjectLayer NUM_LAYERS = 2;
     };
 
     /// Class that determines if two object layers can collide
-    class ObjectLayerPairFilterImpl : public ObjectLayerPairFilter
+    class ObjectLayerPairFilterImpl : public JPH::ObjectLayerPairFilter
     {
     public:
-        virtual bool ShouldCollide(ObjectLayer inObject1, ObjectLayer inObject2) const override
+        virtual bool ShouldCollide(JPH::ObjectLayer inObject1, JPH::ObjectLayer inObject2) const override
         {
             switch (inObject1)
             {
@@ -81,14 +81,14 @@ namespace hjolt
     // your broadphase layers define JPH_TRACK_BROADPHASE_STATS and look at the stats reported on the TTY.
     namespace BroadPhaseLayers
     {
-        static constexpr BroadPhaseLayer NON_MOVING(0);
-        static constexpr BroadPhaseLayer MOVING(1);
+        static constexpr JPH::BroadPhaseLayer NON_MOVING(0);
+        static constexpr JPH::BroadPhaseLayer MOVING(1);
         static constexpr uint NUM_LAYERS(2);
     };
 
     // BroadPhaseLayerInterface implementation
     // This defines a mapping between object and broadphase layers.
-    class BPLayerInterfaceImpl final : public BroadPhaseLayerInterface
+    class BPLayerInterfaceImpl final : public JPH::BroadPhaseLayerInterface
     {
     public:
         BPLayerInterfaceImpl()
@@ -103,20 +103,20 @@ namespace hjolt
             return BroadPhaseLayers::NUM_LAYERS;
         }
 
-        virtual BroadPhaseLayer GetBroadPhaseLayer(ObjectLayer inLayer) const override
+        virtual JPH::BroadPhaseLayer GetBroadPhaseLayer(JPH::ObjectLayer inLayer) const override
         {
             JPH_ASSERT(inLayer < Layers::NUM_LAYERS);
             return mObjectToBroadPhase[inLayer];
         }
 
 #if defined(JPH_EXTERNAL_PROFILE) || defined(JPH_PROFILE_ENABLED)
-        virtual const char *GetBroadPhaseLayerName(BroadPhaseLayer inLayer) const override
+        virtual const char *GetBroadPhaseLayerName(JPH::BroadPhaseLayer inLayer) const override
         {
-            switch ((BroadPhaseLayer::Type)inLayer)
+            switch ((JPH::BroadPhaseLayer::Type)inLayer)
             {
-            case (BroadPhaseLayer::Type)BroadPhaseLayers::NON_MOVING:
+            case (JPH::BroadPhaseLayer::Type)BroadPhaseLayers::NON_MOVING:
                 return "NON_MOVING";
-            case (BroadPhaseLayer::Type)BroadPhaseLayers::MOVING:
+            case (JPH::BroadPhaseLayer::Type)BroadPhaseLayers::MOVING:
                 return "MOVING";
             default:
                 JPH_ASSERT(false);
@@ -126,14 +126,14 @@ namespace hjolt
 #endif // JPH_EXTERNAL_PROFILE || JPH_PROFILE_ENABLED
 
     private:
-        BroadPhaseLayer mObjectToBroadPhase[Layers::NUM_LAYERS];
+        JPH::BroadPhaseLayer mObjectToBroadPhase[Layers::NUM_LAYERS];
     };
 
     /// Class that determines if an object layer can collide with a broadphase layer
-    class ObjectVsBroadPhaseLayerFilterImpl : public ObjectVsBroadPhaseLayerFilter
+    class ObjectVsBroadPhaseLayerFilterImpl : public JPH::ObjectVsBroadPhaseLayerFilter
     {
     public:
-        virtual bool ShouldCollide(ObjectLayer inLayer1, BroadPhaseLayer inLayer2) const override
+        virtual bool ShouldCollide(JPH::ObjectLayer inLayer1, JPH::BroadPhaseLayer inLayer2) const override
         {
             switch (inLayer1)
             {
@@ -149,46 +149,46 @@ namespace hjolt
     };
 
     // An example contact listener
-    class MyContactListener : public ContactListener
+    class MyContactListener : public JPH::ContactListener
     {
     public:
         // See: ContactListener
-        virtual ValidateResult OnContactValidate(const Body &inBody1, const Body &inBody2, RVec3Arg inBaseOffset, const CollideShapeResult &inCollisionResult) override
+        virtual JPH::ValidateResult OnContactValidate(const JPH::Body &inBody1, const JPH::Body &inBody2, JPH::RVec3Arg inBaseOffset, const JPH::CollideShapeResult &inCollisionResult) override
         {
-            cout << "Contact validate callback" << endl;
+            std::cout << "Contact validate callback" << std::endl;
 
             // Allows you to ignore a contact before it is created (using layers to not make objects collide is cheaper!)
-            return ValidateResult::AcceptAllContactsForThisBodyPair;
+            return JPH::ValidateResult::AcceptAllContactsForThisBodyPair;
         }
 
-        virtual void OnContactAdded(const Body &inBody1, const Body &inBody2, const ContactManifold &inManifold, ContactSettings &ioSettings) override
+        virtual void OnContactAdded(const JPH::Body &inBody1, const JPH::Body &inBody2, const JPH::ContactManifold &inManifold, JPH::ContactSettings &ioSettings) override
         {
-            cout << "A contact was added" << endl;
+            std::cout << "A contact was added" << std::endl;
         }
 
-        virtual void OnContactPersisted(const Body &inBody1, const Body &inBody2, const ContactManifold &inManifold, ContactSettings &ioSettings) override
+        virtual void OnContactPersisted(const JPH::Body &inBody1, const JPH::Body &inBody2, const JPH::ContactManifold &inManifold, JPH::ContactSettings &ioSettings) override
         {
-            cout << "A contact was persisted" << endl;
+            std::cout << "A contact was persisted" << std::endl;
         }
 
-        virtual void OnContactRemoved(const SubShapeIDPair &inSubShapePair) override
+        virtual void OnContactRemoved(const JPH::SubShapeIDPair &inSubShapePair) override
         {
-            cout << "A contact was removed" << endl;
+            std::cout << "A contact was removed" << std::endl;
         }
     };
 
     // An example activation listener
-    class MyBodyActivationListener : public BodyActivationListener
+    class MyBodyActivationListener : public JPH::BodyActivationListener
     {
     public:
-        virtual void OnBodyActivated(const BodyID &inBodyID, uint64 inBodyUserData) override
+        virtual void OnBodyActivated(const JPH::BodyID &inBodyID, JPH::uint64 inBodyUserData) override
         {
-            cout << "A body got activated" << endl;
+            std::cout << "A body got activated" << std::endl;
         }
 
-        virtual void OnBodyDeactivated(const BodyID &inBodyID, uint64 inBodyUserData) override
+        virtual void OnBodyDeactivated(const JPH::BodyID &inBodyID, JPH::uint64 inBodyUserData) override
         {
-            cout << "A body went to sleep" << endl;
+            std::cout << "A body went to sleep" << std::endl;
         }
     };
 
@@ -197,11 +197,11 @@ namespace hjolt
     public:
         Config()
         {
-            maxThreads = thread::hardware_concurrency() - 1;
+            maxThreads = std::thread::hardware_concurrency() - 1;
         }
         int maxTempAllocatorSize = 10 * 1024 * 1024;
-        int maxPhysicsJobs = cMaxPhysicsJobs;
-        int maxPhysicsBarriers = cMaxPhysicsBarriers;
+        int maxPhysicsJobs = JPH::cMaxPhysicsJobs;
+        int maxPhysicsBarriers = JPH::cMaxPhysicsBarriers;
         int maxThreads = 1;
         int maxBodies = 1024;
         int numBodyMutexes = 0;
@@ -214,8 +214,8 @@ namespace hjolt
 
     class ShapeRefHelper {
         public:
-        static inline Shape *getShape(ShapeRefC*Ref) {
-            return Ref->Get();
+        static inline const JPH::Shape *getShape(JPH::ShapeRefC*Ref) {
+            return Ref->GetPtr();
         }
     };
     
@@ -254,12 +254,12 @@ namespace hjolt
             pBodyInterfaceNoLocking = &physics_system.GetBodyInterfaceNoLock();
         }
 
-         void createBody(ShapeRefC *shape) {
+         void createBody(JPH::ShapeRefC *shape) {
             // Create the settings for the body itself. Note that here you can also set other properties like the restitution / friction.
-            BodyCreationSettings body_settings(*shape, RVec3(0.0_r, -1.0_r, 0.0_r), Quat::sIdentity(), EMotionType::Static, Layers::NON_MOVING);
+            JPH::BodyCreationSettings body_settings(*shape, JPH::RVec3(0.0_r, -1.0_r, 0.0_r), JPH::Quat::sIdentity(), JPH::EMotionType::Static, Layers::NON_MOVING);
 
             // Create the actual rigid body
-            Body *floor = pBodyInterfaceLocking->CreateBody(body_settings); // Note that if we run out of bodies this can return nullptr
+            JPH::Body *floor = pBodyInterfaceLocking->CreateBody(body_settings); // Note that if we run out of bodies this can return nullptr
 
         }
 
@@ -267,14 +267,14 @@ namespace hjolt
         {
         }
 
-        inline void update(float deltaTime, int steps, TempAllocator *temp_allocator, JobSystem *job_system) {
+        inline void update(float deltaTime, int steps, JPH::TempAllocator *temp_allocator, JPH::JobSystem *job_system) {
             // Step the world
             physics_system.Update(deltaTime, steps, temp_allocator, job_system);
         }
-        PhysicsSystem physics_system;
+        JPH::PhysicsSystem physics_system;
 
-        BodyInterface *pBodyInterfaceLocking;
-        BodyInterface *pBodyInterfaceNoLocking;
+        JPH::BodyInterface *pBodyInterfaceLocking;
+        JPH::BodyInterface *pBodyInterfaceNoLocking;
 
          // Create mapping table from object layer to broadphase layer
         // Note: As this is an interface, PhysicsSystem will take a reference to this so this instance needs to stay alive!
@@ -302,43 +302,43 @@ namespace hjolt
     class Globals
     {
     public:
-        unique_ptr<TempAllocatorImpl> _tempAllocator;
-        unique_ptr<JobSystemThreadPool> _jobSystem;
-        unique_ptr<Config> _config;
+        std::unique_ptr<JPH::TempAllocatorImpl> _tempAllocator;
+        std::unique_ptr<JPH::JobSystemThreadPool> _jobSystem;
+        std::unique_ptr<Config> _config;
 
 
         Globals(Config *pConfig)
         {
-            _config = make_unique<Config>(*pConfig);
+            _config = std::make_unique<Config>(*pConfig);
 
             Config &config = *pConfig;
             // Register allocation hook. In this example we'll just let Jolt use malloc / free but you can override these if you want (see Memory.h).
             // This needs to be done before any other Jolt function is called.
-            RegisterDefaultAllocator();
+            JPH::RegisterDefaultAllocator();
 
             // Install trace and assert callbacks
-            Trace = TraceImpl;
+            JPH::Trace = TraceImpl;
 
             // Create a factory, this class is responsible for creating instances of classes based on their name or hash and is mainly used for deserialization of saved data.
             // It is not directly used in this example but still required.
-            Factory::sInstance = new Factory();
+            JPH::Factory::sInstance = new JPH::Factory();
 
             // Register all physics types with the factory and install their collision handlers with the CollisionDispatch class.
             // If you have your own custom shape types you probably need to register their handlers with the CollisionDispatch before calling this function.
             // If you implement your own default material (PhysicsMaterial::sDefault) make sure to initialize it before this function or else this function will create one for you.
-            RegisterTypes();
+            JPH::RegisterTypes();
 
             // We need a temp allocator for temporary allocations during the physics update. We're
             // pre-allocating 10 MB to avoid having to do allocations during the physics update.
             // B.t.w. 10 MB is way too much for this example but it is a typical value you can use.
             // If you don't want to pre-allocate you can also use TempAllocatorMalloc to fall back to
             // malloc / free.
-            _tempAllocator = make_unique<TempAllocatorImpl>(config.maxTempAllocatorSize);
+            _tempAllocator = std::make_unique<JPH::TempAllocatorImpl>(config.maxTempAllocatorSize);
 
             // We need a job system that will execute physics jobs on multiple threads. Typically
             // you would implement the JobSystem interface yourself and let Jolt Physics run on top
             // of your own job scheduler. JobSystemThreadPool is an example implementation.
-            _jobSystem =  make_unique<JobSystemThreadPool>(config.maxPhysicsJobs, config.maxPhysicsBarriers, config.maxThreads);
+            _jobSystem =  std::make_unique<JPH::JobSystemThreadPool>(config.maxPhysicsJobs, config.maxPhysicsBarriers, config.maxThreads);
         }
 
         void updateSystem(PhysicsSystemWrapper *system, float deltaTime, int collisionSubSteps) {
@@ -347,18 +347,18 @@ namespace hjolt
 
         PhysicsSystemWrapper *createSystem() {
             auto system = new PhysicsSystemWrapper(*_config);
-
+            return system;
         }
 
-        static ShapeRefC *createBoxShape(float x, float y, float z) {
+        static JPH::ShapeRefC *createBoxShape(float x, float y, float z) {
             // Next we can create a rigid body to serve as the floor, we make a large box
             // Create the settings for the collision volume (the shape).
             // Note that for simple shapes (like boxes) you can also directly construct a BoxShape.
-            BoxShapeSettings box_shape_settings(Vec3(x, y, z));
+            JPH::BoxShapeSettings box_shape_settings(JPH::Vec3(x, y, z));
 
             // Create the shape
-            ShapeSettings::ShapeResult box_shape_result = box_shape_settings.Create();
-            ShapeRefC *box_shape = new ShapeRefC(box_shape_result.Get()); // We don't expect an error here, but you can check box_shape_result for HasError() / GetError()
+            JPH::ShapeSettings::ShapeResult box_shape_result = box_shape_settings.Create();
+            JPH::ShapeRefC *box_shape = new JPH::ShapeRefC(box_shape_result.Get()); // We don't expect an error here, but you can check box_shape_result for HasError() / GetError()
             return box_shape;
         }
 
@@ -367,11 +367,11 @@ namespace hjolt
         ~Globals()
         {               
             // Unregisters all types with the factory and cleans up the default material
-            UnregisterTypes();
+            JPH::UnregisterTypes();
 
             // Destroy the factory
-            delete Factory::sInstance;
-            Factory::sInstance = nullptr;
+            delete JPH::Factory::sInstance;
+            JPH::Factory::sInstance = nullptr;
         }
     };
 }
@@ -427,7 +427,7 @@ namespace hjolt
                 // Output current position and velocity of the sphere
                 RVec3 position = body_interface.GetCenterOfMassPosition(sphere_id);
                 Vec3 velocity = body_interface.GetLinearVelocity(sphere_id);
-                cout << "Step " << step << ": Position = (" << position.GetX() << ", " << position.GetY() << ", " << position.GetZ() << "), Velocity = (" << velocity.GetX() << ", " << velocity.GetY() << ", " << velocity.GetZ() << ")" << endl;
+                std::cout << "Step " << step << ": Position = (" << position.GetX() << ", " << position.GetY() << ", " << position.GetZ() << "), Velocity = (" << velocity.GetX() << ", " << velocity.GetY() << ", " << velocity.GetZ() << ")" << endl;
 
                 // If you take larger steps than 1 / 60th of a second you need to do multiple collision steps in order to keep the simulation stable. Do 1 collision step per 1 / 60th of a second (round up).
                 const int cCollisionSteps = 1;

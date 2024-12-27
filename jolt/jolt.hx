@@ -8,58 +8,66 @@ abstract BodyCreationSettings(idl.Types.Ref) from idl.Types.Ref to idl.Types.Ref
 	@:hlNative("jolt", "BodyCreationSettings_delete")
 	public function delete():Void { }
 }
-abstract Config(idl.Types.Ref) from idl.Types.Ref to idl.Types.Ref {
-	@:hlNative("jolt", "Config_new0")
-	static function new0():jolt.Config return cast(0, Config);
-	public inline function new():jolt.Config return new0();
+abstract JoltConfig(idl.Types.Ref) from idl.Types.Ref to idl.Types.Ref {
+	@:hlNative("jolt", "JoltConfig_new0")
+	static function new0():jolt.JoltConfig return cast(0, JoltConfig);
+	public inline function new():jolt.JoltConfig return new0();
 	public var maxTempAllocatorSize(get, set) : Int;
-	@:hlNative("jolt", "Config_get_maxTempAllocatorSize")
+	@:hlNative("jolt", "JoltConfig_get_maxTempAllocatorSize")
 	function get_maxTempAllocatorSize():Int return 0;
-	@:hlNative("jolt", "Config_set_maxTempAllocatorSize")
+	@:hlNative("jolt", "JoltConfig_set_maxTempAllocatorSize")
 	function set_maxTempAllocatorSize(_v:Int):Int return 0;
 	public var maxPhysicsJobs(get, set) : Int;
-	@:hlNative("jolt", "Config_get_maxPhysicsJobs")
+	@:hlNative("jolt", "JoltConfig_get_maxPhysicsJobs")
 	function get_maxPhysicsJobs():Int return 0;
-	@:hlNative("jolt", "Config_set_maxPhysicsJobs")
+	@:hlNative("jolt", "JoltConfig_set_maxPhysicsJobs")
 	function set_maxPhysicsJobs(_v:Int):Int return 0;
 	public var maxPhysicsBarriers(get, set) : Int;
-	@:hlNative("jolt", "Config_get_maxPhysicsBarriers")
+	@:hlNative("jolt", "JoltConfig_get_maxPhysicsBarriers")
 	function get_maxPhysicsBarriers():Int return 0;
-	@:hlNative("jolt", "Config_set_maxPhysicsBarriers")
+	@:hlNative("jolt", "JoltConfig_set_maxPhysicsBarriers")
 	function set_maxPhysicsBarriers(_v:Int):Int return 0;
 	public var maxThreads(get, set) : Int;
-	@:hlNative("jolt", "Config_get_maxThreads")
+	@:hlNative("jolt", "JoltConfig_get_maxThreads")
 	function get_maxThreads():Int return 0;
-	@:hlNative("jolt", "Config_set_maxThreads")
+	@:hlNative("jolt", "JoltConfig_set_maxThreads")
 	function set_maxThreads(_v:Int):Int return 0;
 	public var maxBodies(get, set) : Int;
-	@:hlNative("jolt", "Config_get_maxBodies")
+	@:hlNative("jolt", "JoltConfig_get_maxBodies")
 	function get_maxBodies():Int return 0;
-	@:hlNative("jolt", "Config_set_maxBodies")
+	@:hlNative("jolt", "JoltConfig_set_maxBodies")
 	function set_maxBodies(_v:Int):Int return 0;
 	public var numBodyMutexes(get, set) : Int;
-	@:hlNative("jolt", "Config_get_numBodyMutexes")
+	@:hlNative("jolt", "JoltConfig_get_numBodyMutexes")
 	function get_numBodyMutexes():Int return 0;
-	@:hlNative("jolt", "Config_set_numBodyMutexes")
+	@:hlNative("jolt", "JoltConfig_set_numBodyMutexes")
 	function set_numBodyMutexes(_v:Int):Int return 0;
 	public var maxBodyPairs(get, set) : Int;
-	@:hlNative("jolt", "Config_get_maxBodyPairs")
+	@:hlNative("jolt", "JoltConfig_get_maxBodyPairs")
 	function get_maxBodyPairs():Int return 0;
-	@:hlNative("jolt", "Config_set_maxBodyPairs")
+	@:hlNative("jolt", "JoltConfig_set_maxBodyPairs")
 	function set_maxBodyPairs(_v:Int):Int return 0;
 	public var maxContactConstraints(get, set) : Int;
-	@:hlNative("jolt", "Config_get_maxContactConstraints")
+	@:hlNative("jolt", "JoltConfig_get_maxContactConstraints")
 	function get_maxContactConstraints():Int return 0;
-	@:hlNative("jolt", "Config_set_maxContactConstraints")
+	@:hlNative("jolt", "JoltConfig_set_maxContactConstraints")
 	function set_maxContactConstraints(_v:Int):Int return 0;
-	@:hlNative("jolt", "Config_delete")
+	@:hlNative("jolt", "JoltConfig_delete")
 	public function delete():Void { }
 }
-abstract Globals(idl.Types.Ref) from idl.Types.Ref to idl.Types.Ref {
-	@:hlNative("jolt", "Globals_new1")
-	static function new1(config:jolt.Config):jolt.Globals return cast(0, Globals);
-	public inline function new(config:jolt.Config):jolt.Globals return new1(cast config);
-	@:hlNative("jolt", "Globals_delete")
+abstract JoltSystem(idl.Types.Ref) from idl.Types.Ref to idl.Types.Ref {
+	@:hlNative("jolt", "JoltSystem_delete")
+	public function delete():Void { }
+}
+abstract JoltGlobals(idl.Types.Ref) from idl.Types.Ref to idl.Types.Ref {
+	@:hlNative("jolt", "JoltGlobals_new1")
+	static function new1(config:JoltConfig):jolt.JoltGlobals return cast(0, JoltGlobals);
+	public inline function new(config:JoltConfig):jolt.JoltGlobals return new1(cast config);
+	@:hlNative("jolt", "JoltGlobals_createSystem0")
+	public function createSystem():JoltSystem return null;
+	@:hlNative("jolt", "JoltGlobals_updateSystem3")
+	public function updateSystem(system:JoltSystem, deltaTime:Single, collisionSubSteps:Int):Void { }
+	@:hlNative("jolt", "JoltGlobals_delete")
 	public function delete():Void { }
 }
 
@@ -79,7 +87,7 @@ abstract Globals(idl.Types.Ref) from idl.Types.Ref to idl.Types.Ref {
 	@:native("delete ")
 	public function free():Void { }
 }
-@:native("hjolt::Config") @:structAccess @:unreflective @:build(idl.macros.MacroTools.buildHXCPPIDLType("${JOLT_IDL_DIR}/jolt.idl")) extern class Config {
+@:native("hjolt::Config") @:structAccess @:unreflective @:build(idl.macros.MacroTools.buildHXCPPIDLType("${JOLT_IDL_DIR}/jolt.idl")) extern class JoltConfig {
 	public var maxTempAllocatorSize : Int;
 	public var maxPhysicsJobs : Int;
 	public var maxPhysicsBarriers : Int;
@@ -90,26 +98,34 @@ abstract Globals(idl.Types.Ref) from idl.Types.Ref to idl.Types.Ref {
 	public var maxContactConstraints : Int;
 	public function delete():Void;
 	@:native("hjolt::Config")
-	public static function make():Config {
+	public static function make():JoltConfig {
 		return null;
 	}
 }
-@:forward @:forwardStatics abstract ConfigPtr(cpp.Star<jolt.Config>) from cpp.Star<jolt.Config> to cpp.Star<jolt.Config> {
+@:forward @:forwardStatics abstract JoltConfigPtr(cpp.Star<jolt.JoltConfig>) from cpp.Star<jolt.JoltConfig> to cpp.Star<jolt.JoltConfig> {
 	@:native("new hjolt::Config")
-	public static function alloc():jolt.ConfigPtr return null;
+	public static function alloc():jolt.JoltConfigPtr return null;
 	@:native("delete ")
 	public function free():Void { }
 }
-@:native("hjolt::Globals") @:structAccess @:unreflective @:build(idl.macros.MacroTools.buildHXCPPIDLType("${JOLT_IDL_DIR}/jolt.idl")) extern class Globals {
+@:native("hjolt::PhysicsSystemWrapper") @:structAccess @:unreflective @:build(idl.macros.MacroTools.buildHXCPPIDLType("${JOLT_IDL_DIR}/jolt.idl")) extern class JoltSystem {
+	public function delete():Void;
+}
+@:forward @:forwardStatics abstract JoltSystemPtr(cpp.Star<jolt.JoltSystem>) from cpp.Star<jolt.JoltSystem> to cpp.Star<jolt.JoltSystem> {
+
+}
+@:native("hjolt::Globals") @:structAccess @:unreflective @:build(idl.macros.MacroTools.buildHXCPPIDLType("${JOLT_IDL_DIR}/jolt.idl")) extern class JoltGlobals {
+	public function createSystem():JoltSystemPtr;
+	public function updateSystem(system:JoltSystemPtr, deltaTime:Single, collisionSubSteps:Int):Void;
 	public function delete():Void;
 	@:native("hjolt::Globals")
-	public static function make(config:Config):Globals {
+	public static function make(config:JoltConfigPtr):JoltGlobals {
 		return null;
 	}
 }
-@:forward @:forwardStatics abstract GlobalsPtr(cpp.Star<jolt.Globals>) from cpp.Star<jolt.Globals> to cpp.Star<jolt.Globals> {
+@:forward @:forwardStatics abstract JoltGlobalsPtr(cpp.Star<jolt.JoltGlobals>) from cpp.Star<jolt.JoltGlobals> to cpp.Star<jolt.JoltGlobals> {
 	@:native("new hjolt::Globals")
-	public static function alloc(config:Config):jolt.GlobalsPtr return null;
+	public static function alloc(config:JoltConfigPtr):jolt.JoltGlobalsPtr return null;
 	@:native("delete ")
 	public function free():Void { }
 }
