@@ -2,12 +2,13 @@
 
 
 [Internal="JPH::BodyCreationSettings"]
-interface BodyCreationSettings {
-
+object BodyCreationSettings {
+	BodyCreationSettings new();
 };
 
 [Internal="hjolt::Config"]
-interface Config {
+object Config {
+	Config new();
 	attribute int maxTempAllocatorSize;
 	attribute int maxPhysicsJobs;
 	attribute int maxPhysicsBarriers;
@@ -19,7 +20,7 @@ interface Config {
 };
 
 [Internal="hjolt::Globals"]
-interface Globals {
-	void Globals( Config config );
+object Globals {
+	Globals new( Config config );
 
 };

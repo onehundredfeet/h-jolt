@@ -1,0 +1,17 @@
+-cp .
+#-cp lib
+#this is terrible
+#-cp /Users/rcleven/git/hl-idl/example
+--library hvector
+--library hl-idl
+--library jolt
+-D HXCPP_VERBOSE
+--cpp cpp
+-D no-compilation
+-D JOLT_LIB_DIR=../lib/debug
+--macro idl.macros.MacroTools.hxcppInit("jolt/jolt.idl") // would be really nice to make this
+--main JoltTest
+ --next
+ --library hl-idl
+ --run idl.CMakeGenerateHXCPP 
+  cpp
